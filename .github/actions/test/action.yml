@@ -1,0 +1,31 @@
+name: 'Run Tests'
+description: 'Run Rust tests for the issue-picker project'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+          
+    - name: Run cargo check
+      shell: bash
+      run: cargo check --all-features
+      
+    - name: Run tests
+      shell: bash
+      run: cargo test --all-features
+      
+    - name: Run clippy
+      shell: bash
+      run: cargo clippy --all-features -- -D warnings
+      
+    - name: Check formatting
+      shell: bash
+      run: cargo fmt -- --check
+
+    - name: Check sort
+      shell: bash
+      run: cargo sort --check
+
+    - name: Run taplo
+      shell: bash
+      run: taplo check Cargo.toml
